@@ -13,19 +13,39 @@ export interface Item {
   category: string;
   stock: number;
   image?: string;
+  imageUrl?: string;
 }
 
-export interface CartItem extends Item {
+export interface CartItem {
+  id: string;
+  itemId: string;
+  name: string;
+  price: number;
   quantity: number;
+  availableStock: number;
 }
+
+export interface OrderItem {
+  id: string;
+  itemId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  totalPrice: number;
+}
+
+export type OrderStatus = 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
 
 export interface Order {
   id: string;
+  trackingId: string;
   userId: string;
-  items: CartItem[];
-  total: number;
-  status: 'pending' | 'delivered';
+  items: OrderItem[];
+  totalPrice: number;
+  subtotal: number;
+  status: OrderStatus;
   createdAt: string;
+  updatedAt: string;
 }
 
 // Auth related types
@@ -35,10 +55,11 @@ export interface LoginCredentials {
 }
 
 export interface RegisterCredentials extends LoginCredentials {
-  name: string;
+  name?: string;
 }
 
 export interface AuthResponse {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   user: User;
 }

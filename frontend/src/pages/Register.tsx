@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
 export default function Register() {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { register } = useAuth();
@@ -13,7 +12,7 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register({ name, email, password });
+      await register({ email, password });
       toast.success('Registration successful!');
       navigate('/');
     } catch (error) {
@@ -26,7 +25,7 @@ export default function Register() {
       <div className="max-w-4xl w-full grid md:grid-cols-2 gap-6 items-center">
         <div className="hidden md:flex flex-col justify-center rounded-lg overflow-hidden bg-gradient-to-br from-primary-50 to-primary-100 p-8">
           <h3 className="text-2xl font-bold text-primary-700">Join FoodDelivery</h3>
-          <p className="mt-4 text-gray-700 dark:text-gray-200">
+          <p className="mt-4 text-gray-700 dark:text-gray-700">
             Create an account to save your carts, track orders, and checkout faster.
           </p>
           <ul className="mt-6 space-y-3 text-sm text-gray-700">
@@ -43,22 +42,6 @@ export default function Register() {
             </h2>
 
             <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="name" className="sr-only">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                  placeholder="Full name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-
               <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address

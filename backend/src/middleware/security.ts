@@ -25,8 +25,8 @@ export const securityMiddleware = [
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", 'data:', 'https:'],
-        connectSrc: ["'self'", 'https://api.stripe.com'], // If using Stripe
-        frameSrc: ["'self'", 'https://js.stripe.com'], // If using Stripe
+        connectSrc: ["'self'", 'https://api.stripe.com'], 
+        frameSrc: ["'self'", 'https://js.stripe.com'], 
         objectSrc: ["'none'"]
       }
     },
@@ -34,17 +34,17 @@ export const securityMiddleware = [
   })
 ];
 
-// CORS configuration
+// CORS configuration - Allow all origins for development
 export const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Range', 'X-Content-Range'],
-  credentials: true,
-  maxAge: 600 // 10 minutes
+  credentials: false, // Must be false when origin is '*'
+  maxAge: 600 
 };
 
-// Error handling middleware
+
 export const errorHandler = (
   err: Error,
   req: Request,

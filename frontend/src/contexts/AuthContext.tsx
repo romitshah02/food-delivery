@@ -22,16 +22,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      api.get('/auth/me')
-        .then(response => {
-          setUser(response.data.user);
-        })
-        .catch(() => {
-          localStorage.removeItem('token');
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      // Token exists, we're logged in
+      // Store basic user info from token or create a placeholder
+      const userEmail = localStorage.getItem('userEmail');
+      if (userEmail) {
+        setUser({ id: '', email: userEmail });
+      }
+      setIsLoading(false);
     } else {
       setIsLoading(false);
     }
@@ -40,8 +37,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (credentials: LoginCredentials) => {
     try {
       setError(null);
-      const response = await api.post<AuthResponse>('/auth/login', credentials);
-      localStorage.setItem('token', response.data.token);
+      const response = await api.post<AuthResponse>('/api/auth/login', credentials);
+      localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('userEmail', response.data.user.email);
       setUser(response.data.user);
     } catch (err) {
       setError('Invalid credentials');
@@ -52,9 +51,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (credentials: RegisterCredentials) => {
     try {
       setError(null);
-      const response = await api.post<AuthResponse>('/auth/register', credentials);
-      localStorage.setItem('token', response.data.token);
+      const response = await api.post('/api/auth/register', credentials);
+      // Backend returns user only on register, need to login after
+      localStorage.setItem('userEmail', response.data.user.email);
       setUser(response.data.user);
+      // Auto-login after registration
+      await login({ email: credentials.email, password: credentials.password });
     } catch (err) {
       setError('Registration failed');
       throw err;
@@ -62,7 +64,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      // Call logout endpoint to revoke session
+      api.post('/api/auth/logout', { refreshToken }).catch(() => {
+        // Ignore errors on logout
+      });
+    }
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userEmail');
     setUser(null);
   };
 

@@ -26,7 +26,7 @@ export default function Login() {
         {/* Left marketing panel - visible on md+ */}
         <div className="hidden md:flex flex-col justify-center rounded-lg overflow-hidden bg-gradient-to-br from-primary-50 to-primary-100 p-8">
           <h3 className="text-2xl font-bold text-primary-700">Fresh food delivered</h3>
-          <p className="mt-4 text-gray-700 dark:text-gray-200">
+          <p className="mt-4 text-gray-700 dark:text-gray-700">
             Browse a wide selection of fresh items and get them delivered to your door. Save your cart across devices and enjoy quick checkout.
           </p>
           <ul className="mt-6 space-y-3 text-sm text-gray-700">

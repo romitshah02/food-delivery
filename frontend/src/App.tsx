@@ -2,10 +2,12 @@ import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
 import Layout from './components/Layout/Layout';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Menu from './pages/Menu';
 
 // Create a client for React Query
 const queryClient = new QueryClient();
@@ -24,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/menu',
-        element: <div>Menu Page - Coming Soon</div>,
+        element: <Menu />,
       },
       {
         path: '/cart',
@@ -58,8 +60,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RouterProvider router={router} />
-        <Toaster position="top-right" />
+        <CartProvider>
+          <RouterProvider router={router} />
+          <Toaster position="top-right" />
+        </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

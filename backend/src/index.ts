@@ -18,6 +18,9 @@ dotenv.config();
 
 const app = express();
 
+// Debug: Log CORS configuration
+console.log('CORS Configuration:', corsOptions);
+
 // Security middleware
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10kb' })); // Limit payload size
