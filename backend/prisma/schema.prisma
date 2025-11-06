@@ -1,0 +1,107 @@
+
+generator client {
+provider = "prisma-client-js"
+}
+
+// Set up PostgreSQL as the database provider
+datasource db {
+provider = "postgresql"
+url      = env("DATABASE_URL") 
+}
+
+// Enum for Item Categories
+enum ItemCategory {
+FRUIT
+VEGETABLE
+NON_VEG
+BREAD
+DAIRY
+PANTRY
+SNACK
+BEVERAGE
+}
+
+// Enum for Order Status
+enum OrderStatus {
+PENDING     
+PROCESSING  
+SHIPPED     
+DELIVERED  
+CANCELLED  
+}
+
+model User {
+id        String @id @default(cuid())
+email     String @unique
+password  String // This will be a hashed password
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+cartItems CartItem[]
+orders    Order[]
+sessions  Session[]
+}
+
+
+model Item {
+id          String       @id @default(cuid())
+name        String
+description String?
+		price       Float
+imageUrl    String?
+stock       Int          
+category    ItemCategory 
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+cartItems CartItem[]
+orderItems OrderItem[]
+}
+
+
+model CartItem {
+id        String @id @default(cuid())
+quantity  Int    @default(1) 
+createdAt DateTime @default(now())
+updatedAt DateTime @updatedAt
+user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+userId String
+item   Item   @relation(fields: [itemId], references: [id], onDelete: NoAction)
+itemId String
+@@unique([userId, itemId])
+}
+
+
+model Order {
+id         String      @id @default(cuid())
+trackingId String      @unique @default(cuid()) 
+		totalPrice  Float
+status     OrderStatus @default(PENDING)        
+createdAt  DateTime    @default(now())
+updatedAt  DateTime    @updatedAt
+user   User   @relation(fields: [userId], references: [id], onDelete: NoAction) // Don't delete orders if user is deleted
+userId String
+items OrderItem[]
+}
+
+
+model OrderItem {
+id              String @id @default(cuid())
+quantity        Int
+		priceAtPurchase Float
+order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade) 
+orderId String
+item   Item   @relation(fields: [itemId], references: [id], onDelete: NoAction)
+itemId String
+}
+
+// Sessions / refresh tokens for multi-device login and token revocation
+model Session {
+	id         String   @id @default(cuid())
+	user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId     String
+	tokenHash  String
+	expiresAt  DateTime
+	createdAt  DateTime @default(now())
+	lastUsedAt DateTime?
+	deviceInfo String?
+	revoked    Boolean  @default(false)
+}
