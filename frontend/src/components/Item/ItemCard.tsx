@@ -42,11 +42,26 @@ export default function ItemCard({ item, onAdd, onIncrease, onDecrease, onSetQua
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-4 flex flex-col h-full">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow transition-transform duration-200 ease-out p-4 flex flex-col h-full transform-gpu hover:scale-[1.02] hover:-translate-y-0.5">
       <div className="aspect-square w-full bg-gray-100 dark:bg-gray-700 rounded-md overflow-hidden flex items-center justify-center flex-shrink-0">
-        {item.image ? (
+        {item.imageUrl || item.image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.image} alt={item.name} className="object-cover h-full w-full" />
+          <img
+            src={item.imageUrl || item.image}
+            alt={item.name}
+            className="object-cover h-full w-full"
+            onError={(e) => {
+              // Fallback to placeholder emoji if the image fails to load
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
+              const parent = (e.currentTarget.parentElement);
+              if (parent && !parent.querySelector('.fallback-emoji')) {
+                const span = document.createElement('span');
+                span.textContent = '🍽️';
+                span.className = 'fallback-emoji text-gray-400 text-4xl';
+                parent.appendChild(span);
+              }
+            }}
+          />
         ) : (
           <div className="text-gray-400 text-4xl">🍽️</div>
         )}

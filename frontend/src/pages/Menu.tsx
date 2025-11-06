@@ -148,7 +148,7 @@ export default function Menu() {
   return (
     <div>
       <div className="mb-6 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div className="flex items-center space-x-3">
             <h2 className="text-2xl font-bold">Menu</h2>
             <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -163,7 +163,7 @@ export default function Menu() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search items..."
-            className="w-64 px-3 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="w-full sm:w-64 px-3 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           />
         </div>
 

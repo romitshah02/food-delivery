@@ -47,8 +47,8 @@ id          String       @id @default(cuid())
 name        String
 description String?
 		price       Float
-imageUrl    String?
-stock       Int          
+ imageUrl    String?
+ stock       Int          
 category    ItemCategory 
 createdAt DateTime @default(now())
 updatedAt DateTime @updatedAt

@@ -67,7 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken) {
       // Call logout endpoint to revoke session
-      api.post('/api/auth/logout', { refreshToken }).catch(() => {
+      api.post('/auth/logout', { refreshToken }).catch(() => {
         // Ignore errors on logout
       });
     }

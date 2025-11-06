@@ -64,9 +64,9 @@ export default function Cart() {
         {/* Cart Items */}
         <div className="divide-y divide-gray-200 dark:divide-gray-700">
           {cart.map((item) => (
-            <div key={item.id} className="p-6 flex items-center gap-4">
+            <div key={item.id} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Item Info */}
-              <div className="flex-1">
+              <div className="flex-1 w-full">
                 <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{item.name}</h3>
                 <p className="text-gray-600 dark:text-gray-400">₹{item.price.toFixed(2)} each</p>
                 {item.quantity > item.availableStock && (
@@ -96,7 +96,7 @@ export default function Cart() {
               </div>
 
               {/* Item Total */}
-              <div className="w-24 text-right">
+              <div className="sm:w-24 w-full sm:text-right">
                 <p className="font-semibold text-lg text-gray-900 dark:text-white">
                   ₹{(item.price * item.quantity).toFixed(2)}
                 </p>
@@ -105,7 +105,7 @@ export default function Cart() {
               {/* Remove Button */}
               <button
                 onClick={() => handleRemove(item.id)}
-                className="text-red-600 hover:text-red-700 p-2"
+                className="text-red-600 hover:text-red-700 p-2 self-start sm:self-auto"
                 title="Remove item"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

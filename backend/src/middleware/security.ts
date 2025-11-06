@@ -30,17 +30,30 @@ export const securityMiddleware = [
         objectSrc: ["'none'"]
       }
     },
-    crossOriginEmbedderPolicy: false // Needed for some third-party integrations
+    crossOriginEmbedderPolicy: false 
   })
 ];
 
-// CORS configuration - Allow all origins for development
+// CORS configuration
+const allowedOrigins = [
+  process.env.FRONTEND_URL
+].filter(Boolean); 
+
 export const corsOptions = {
-  origin: '*', 
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Range', 'X-Content-Range'],
-  credentials: false, // Must be false when origin is '*'
+  credentials: true, 
   maxAge: 600 
 };
 

@@ -115,7 +115,7 @@ export default function Navbar() {
               </div>
 
               <div className="-mr-2 flex items-center sm:hidden">
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
@@ -126,46 +126,85 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 pb-3 pt-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="block py-2 pl-3 pr-4 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-            <div className="px-4">
+          <Disclosure.Panel className="sm:hidden border-t border-gray-200 dark:border-gray-800">
+            <div className="px-4 pt-4 pb-3 space-y-4">
+              {/* Primary nav links */}
+              <div className="space-y-1">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Cart link for mobile */}
+              <Link
+                to="/cart"
+                className="flex items-center justify-between rounded-md px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <span>Cart</span>
+                <span className="inline-flex items-center justify-center min-w-[2rem] h-6 rounded-full bg-primary-600 text-white text-xs font-semibold px-2">
+                  {cartItemCount}
+                </span>
+              </Link>
+
+              {/* Theme toggle */}
               <button
                 onClick={toggleTheme}
                 aria-label="Toggle theme"
-                className="mb-2 w-full rounded-md p-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="w-full rounded-md px-3 py-2 flex items-center justify-center bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                {theme === 'dark' ? <SunIcon className="h-5 w-5 mx-auto" /> : <MoonIcon className="h-5 w-5 mx-auto" />}
+                {theme === 'dark' ? (
+                  <span className="flex items-center gap-2"><SunIcon className="h-5 w-5" /> Light Mode</span>
+                ) : (
+                  <span className="flex items-center gap-2"><MoonIcon className="h-5 w-5" /> Dark Mode</span>
+                )}
               </button>
-            </div>
 
-            {!user && (
-              <div className="border-t border-gray-200 dark:border-gray-700 pb-3 pt-4">
-                <div className="space-y-1">
+              {/* Auth / Profile section */}
+              {user ? (
+                <div className="space-y-2 border-t border-gray-200 dark:border-gray-700 pt-4">
+                  <div className="flex items-center gap-2">
+                    <UserCircleIcon className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Account</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Signed in</p>
+                    </div>
+                  </div>
+                  <Link
+                    to="/orders"
+                    className="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    Orders
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="w-full text-left rounded-md px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2 border-t border-gray-200 dark:border-gray-700 pt-4">
                   <Link
                     to="/login"
-                    className="block px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     Sign in
                   </Link>
                   <Link
                     to="/register"
-                    className="block px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="block rounded-md px-3 py-2 text-sm font-medium bg-primary-600 text-white text-center hover:bg-primary-700 rounded"
                   >
                     Sign up
                   </Link>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </Disclosure.Panel>
         </>
       )}

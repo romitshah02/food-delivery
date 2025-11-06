@@ -87,7 +87,7 @@ export default function Checkout() {
         </div>
       )}
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid gap-8 md:grid-cols-2">
         {/* Order Summary */}
         <div>
           <h2 className="text-xl font-semibold mb-4">Order Summary</h2>

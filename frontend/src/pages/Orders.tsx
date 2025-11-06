@@ -44,9 +44,8 @@ export default function Orders() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <h1 className="text-3xl font-bold mr-4">Order History</h1>
-        
         {/* Status Filter */}
         <div className="flex gap-2 flex-wrap">
           {statuses.map((status) => (
@@ -83,7 +82,7 @@ export default function Orders() {
               className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
             >
               {/* Order Header */}
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Order #{order.trackingId.substring(0, 8)}
@@ -106,7 +105,7 @@ export default function Orders() {
               {/* Order Items */}
               <div className="divide-y divide-gray-200 dark:divide-gray-700 mb-4">
                 {order.items.map((item) => (
-                  <div key={item.id} className="py-3 flex justify-between">
+                  <div key={item.id} className="py-3 flex flex-col sm:flex-row sm:justify-between gap-2">
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">{item.name}</p>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -121,7 +120,7 @@ export default function Orders() {
               </div>
 
               {/* Order Total */}
-              <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <span className="text-lg font-semibold text-gray-900 dark:text-white">Total</span>
                 <span className="text-xl font-bold text-primary-600">₹{order.subtotal.toFixed(2)}</span>
               </div>
