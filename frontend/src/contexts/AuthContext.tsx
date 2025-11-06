@@ -52,10 +52,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setError(null);
       const response = await api.post('/auth/register', credentials);
-      // Backend returns user only on register, need to login after
+      // Backend returns user info
       localStorage.setItem('userEmail', response.data.user.email);
-      setUser(response.data.user);
-      // Auto-login after registration
+      // Auto-login after registration 
       await login({ email: credentials.email, password: credentials.password });
     } catch (err) {
       setError('Registration failed');
