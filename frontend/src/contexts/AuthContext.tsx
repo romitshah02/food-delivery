@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (credentials: LoginCredentials) => {
     try {
       setError(null);
-      const response = await api.post<AuthResponse>('/api/auth/login', credentials);
+      const response = await api.post<AuthResponse>('/auth/login', credentials);
       localStorage.setItem('token', response.data.accessToken);
       localStorage.setItem('refreshToken', response.data.refreshToken);
       localStorage.setItem('userEmail', response.data.user.email);
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (credentials: RegisterCredentials) => {
     try {
       setError(null);
-      const response = await api.post('/api/auth/register', credentials);
+      const response = await api.post('/auth/register', credentials);
       // Backend returns user only on register, need to login after
       localStorage.setItem('userEmail', response.data.user.email);
       setUser(response.data.user);

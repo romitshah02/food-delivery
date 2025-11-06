@@ -16,6 +16,6 @@ export interface OutOfStockError {
 }
 
 export async function checkout(): Promise<CheckoutResponse> {
-  const response = await api.post<CheckoutResponse>('/api/checkout');
+  const response = await api.post<CheckoutResponse>('/checkout');
   return response.data;
 }

@@ -5,9 +5,13 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import Layout from './components/Layout/Layout';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Menu from './pages/Menu';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import Orders from './pages/Orders';
 
 // Create a client for React Query
 const queryClient = new QueryClient();
@@ -22,7 +26,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <div>Home Page - Coming Soon</div>,
+        element: <Home />,
       },
       {
         path: '/menu',
@@ -32,7 +36,15 @@ const router = createBrowserRouter([
         path: '/cart',
         element: (
           <ProtectedRoute>
-            <div>Cart Page - Coming Soon</div>
+            <Cart />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/checkout',
+        element: (
+          <ProtectedRoute>
+            <Checkout />
           </ProtectedRoute>
         ),
       },
@@ -40,7 +52,7 @@ const router = createBrowserRouter([
         path: '/orders',
         element: (
           <ProtectedRoute>
-            <div>Orders Page - Coming Soon</div>
+            <Orders />
           </ProtectedRoute>
         ),
       },

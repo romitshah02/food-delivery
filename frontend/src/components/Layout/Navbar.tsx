@@ -3,14 +3,17 @@ import { Link } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { ShoppingCartIcon, UserCircleIcon, Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../contexts/CartContext';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { cart } = useCart();
   const { theme, toggleTheme } = useTheme();
+  
+  const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigation = [
-    { name: 'Home', href: '/', current: true },
     { name: 'Menu', href: '/menu', current: false },
   ];
 
@@ -49,9 +52,14 @@ export default function Navbar() {
 
                 <Link
                   to="/cart"
-                  className="rounded-full bg-white dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-300 hover:text-primary-600"
+                  className="relative rounded-full bg-white dark:bg-gray-800 p-1 text-gray-700 dark:text-gray-300 hover:text-primary-600"
                 >
                   <ShoppingCartIcon className="h-6 w-6" />
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {cartItemCount}
+                    </span>
+                  )}
                 </Link>
 
                 {user ? (

@@ -2,6 +2,40 @@ import { Request, Response } from 'express';
 import { ItemCategory, Prisma } from '@prisma/client';
 import prisma from '../db';
 
+// Get all items with optional filtering
+export const getAllItems = async (req: Request, res: Response) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page as string) || 1);
+    const limit = Math.min(50, Math.max(1, parseInt(req.query.limit as string) || 50));
+    const search = (req.query.search as string) || '';
+    const category = req.query.category as ItemCategory | undefined;
+
+    const where: Prisma.ItemWhereInput = {
+      ...(category ? { category } : {}),
+      ...(search ? {
+        OR: [
+          { name: { contains: search, mode: 'insensitive' as Prisma.QueryMode } },
+          { description: { contains: search, mode: 'insensitive' as Prisma.QueryMode } }
+        ]
+      } : {})
+    };
+
+    const [items, total] = await Promise.all([
+      prisma.item.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { name: 'asc' }
+      }),
+      prisma.item.count({ where })
+    ]);
+
+    return res.json(items);
+  } catch (err) {
+    return res.status(500).json({ error: 'Server error', details: (err as Error).message });
+  }
+};
+
 // Get all available categories
 export const getCategories = async (_req: Request, res: Response) => {
   try {

@@ -45,15 +45,15 @@ export default function Orders() {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold">Order History</h1>
+        <h1 className="text-3xl font-bold mr-4">Order History</h1>
         
         {/* Status Filter */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {statuses.map((status) => (
             <button
               key={status}
               onClick={() => setStatusFilter(status === 'ALL' ? undefined : status)}
-              className={`px-3 py-1 rounded-md text-sm transition ${
+              className={`px-4 py-2 rounded-md text-sm font-medium transition ${
                 (status === 'ALL' && !statusFilter) || status === statusFilter
                   ? 'bg-primary-600 text-white'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'

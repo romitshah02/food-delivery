@@ -12,11 +12,11 @@ export interface OrdersResponse {
 }
 
 export async function fetchOrders(params?: { page?: number; limit?: number; status?: OrderStatus }): Promise<OrdersResponse> {
-  const response = await api.get<OrdersResponse>('/api/orders', { params });
+  const response = await api.get<OrdersResponse>('/orders', { params });
   return response.data;
 }
 
 export async function fetchOrderDetails(orderId: string): Promise<Order> {
-  const response = await api.get<Order>(`/api/orders/${orderId}`);
+  const response = await api.get<Order>(`/orders/${orderId}`);
   return response.data;
 }
